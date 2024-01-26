@@ -1,0 +1,9 @@
+COLUMN TABLE capapp_db_Students (
+  ID INTEGER NOT NULL,
+  name NVARCHAR(100),
+  site NVARCHAR(100),
+  gender NVARCHAR(100),
+  age NVARCHAR(100),
+  "SCORE" INTEGER,
+  PRIMARY KEY(ID)
+)

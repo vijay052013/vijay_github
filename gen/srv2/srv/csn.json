@@ -1,0 +1,327 @@
+{
+  "definitions": {
+    "capapp.db": {
+      "kind": "context"
+    },
+    "capapp.db.Sales": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "region": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "country": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "org": {
+          "type": "cds.String",
+          "length": 4
+        },
+        "amount": {
+          "type": "cds.Integer"
+        },
+        "comments": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "capapp.db.Students": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "site": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "gender": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "age": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "score": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "CV_SALES": {
+      "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
+      "elements": {
+        "REGION": {
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "AMOUNT": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "CV_SESSION_INFO": {
+      "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
+      "elements": {
+        "ITEM": {
+          "key": true,
+          "type": "cds.String",
+          "length": 5000
+        },
+        "VALUE": {
+          "type": "cds.String",
+          "length": 5000
+        }
+      }
+    },
+    "Catalog2Service": {
+      "@source": "srv2/catalog2-service.cds",
+      "kind": "service",
+      "@path": "/catalog2"
+    },
+    "Catalog2Service.Students": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "capapp.db.Students"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "site": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "gender": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "age": {
+          "type": "cds.String",
+          "length": 100
+        },
+        "score": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "CatalogService": {
+      "@source": "srv/catalog-service.cds",
+      "kind": "service",
+      "@path": "/catalog"
+    },
+    "CatalogService.Sales": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "country"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "Value": {
+            "=": "region"
+          }
+        },
+        {
+          "Value": {
+            "=": "country"
+          }
+        },
+        {
+          "Value": {
+            "=": "amount"
+          },
+          "Criticality": {
+            "=": "criticality"
+          }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Label": "{i18n>boost}",
+          "Action": "CatalogService.boost",
+          "Inline": true
+        },
+        {
+          "Value": {
+            "=": "comments"
+          }
+        }
+      ],
+      "@UI.HeaderInfo.TypeName": "{i18n>country}",
+      "@UI.HeaderInfo.TypeNamePlural": "{i18n>countries}",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "country"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "ID"
+      },
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "capapp.db.Sales"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@title": "{i18n>ID}",
+          "@UI.HiddenFilter": true,
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "region": {
+          "@title": "{i18n>region}",
+          "type": "cds.String",
+          "length": 100
+        },
+        "country": {
+          "@title": "{i18n>country}",
+          "type": "cds.String",
+          "length": 100
+        },
+        "org": {
+          "type": "cds.String",
+          "length": 4
+        },
+        "amount": {
+          "@title": "{i18n>amount}",
+          "type": "cds.Integer"
+        },
+        "comments": {
+          "@title": "{i18n>comments}",
+          "type": "cds.String",
+          "length": 100
+        },
+        "criticality": {
+          "type": "cds.Integer"
+        }
+      },
+      "actions": {
+        "boost": {
+          "kind": "action",
+          "returns": {
+            "type": "CatalogService.Sales"
+          }
+        }
+      }
+    },
+    "CatalogService.VSales": {
+      "kind": "entity",
+      "@readonly": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "CV_SALES"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "REGION": {
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "AMOUNT": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "CatalogService.SessionInfo": {
+      "kind": "entity",
+      "@readonly": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "CV_SESSION_INFO"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ITEM": {
+          "key": true,
+          "type": "cds.String",
+          "length": 5000
+        },
+        "VALUE": {
+          "type": "cds.String",
+          "length": 5000
+        }
+      }
+    },
+    "CatalogService.topSales": {
+      "kind": "function",
+      "params": {
+        "amount": {
+          "type": "cds.Integer"
+        }
+      },
+      "returns": {
+        "items": {
+          "type": "CatalogService.Sales"
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v3.9.12",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

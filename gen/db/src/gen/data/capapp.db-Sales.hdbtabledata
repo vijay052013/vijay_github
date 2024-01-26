@@ -1,0 +1,33 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "CAPAPP_DB_SALES",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "capapp.db-Sales.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "REGION",
+          "COUNTRY",
+          "ORG",
+          "AMOUNT"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "REGION": "region",
+        "COUNTRY": "country",
+        "ORG": "org",
+        "AMOUNT": "amount"
+      }
+    }
+  ]
+}

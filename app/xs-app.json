@@ -1,0 +1,20 @@
+{
+    "welcomeFile": "index.html",
+    "authenticationMethod": "none",
+    "routes": [
+        {
+            "source": "^/catalog/(.*)$",
+            "destination": "srv"
+        }
+        ,
+        {
+            "source": "^/catalog2/(.*)$",
+            "destination": "srv2"
+        }
+        ,
+        {
+            "source": "^/(.*)$",
+            "localDir": "resources"
+        }
+    ]
+}

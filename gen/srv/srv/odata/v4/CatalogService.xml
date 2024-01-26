@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Sales" EntityType="CatalogService.Sales"/>
+        <EntitySet Name="VSales" EntityType="CatalogService.VSales"/>
+        <EntitySet Name="SessionInfo" EntityType="CatalogService.SessionInfo"/>
+        <FunctionImport Name="topSales" Function="CatalogService.topSales" EntitySet="Sales"/>
+      </EntityContainer>
+      <EntityType Name="Sales">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="region" Type="Edm.String" MaxLength="100"/>
+        <Property Name="country" Type="Edm.String" MaxLength="100"/>
+        <Property Name="org" Type="Edm.String" MaxLength="4"/>
+        <Property Name="amount" Type="Edm.Int32"/>
+        <Property Name="comments" Type="Edm.String" MaxLength="100"/>
+        <Property Name="criticality" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="VSales">
+        <Key>
+          <PropertyRef Name="REGION"/>
+        </Key>
+        <Property Name="REGION" Type="Edm.String" MaxLength="100" Nullable="false"/>
+        <Property Name="AMOUNT" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="SessionInfo">
+        <Key>
+          <PropertyRef Name="ITEM"/>
+        </Key>
+        <Property Name="ITEM" Type="Edm.String" MaxLength="5000" Nullable="false"/>
+        <Property Name="VALUE" Type="Edm.String" MaxLength="5000"/>
+      </EntityType>
+      <Action Name="boost" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="CatalogService.Sales"/>
+        <ReturnType Type="CatalogService.Sales"/>
+      </Action>
+      <Function Name="topSales" IsBound="false" IsComposable="false">
+        <Parameter Name="amount" Type="Edm.Int32"/>
+        <ReturnType Type="Collection(CatalogService.Sales)" Nullable="false"/>
+      </Function>
+      <Annotations Target="CatalogService.Sales">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="country"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection/>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="ID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="region"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="country"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="amount"/>
+              <PropertyValue Property="Criticality" Path="criticality"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Label" String="{i18n>boost}"/>
+              <PropertyValue Property="Action" String="CatalogService.boost"/>
+              <PropertyValue Property="Inline" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="comments"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="{i18n>country}"/>
+            <PropertyValue Property="TypeNamePlural" String="{i18n>countries}"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="country"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="ID"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="CatalogService.Sales/ID">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ID}"/>
+      </Annotations>
+      <Annotations Target="CatalogService.Sales/region">
+        <Annotation Term="Common.Label" String="{i18n>region}"/>
+      </Annotations>
+      <Annotations Target="CatalogService.Sales/country">
+        <Annotation Term="Common.Label" String="{i18n>country}"/>
+      </Annotations>
+      <Annotations Target="CatalogService.Sales/amount">
+        <Annotation Term="Common.Label" String="{i18n>amount}"/>
+      </Annotations>
+      <Annotations Target="CatalogService.Sales/comments">
+        <Annotation Term="Common.Label" String="{i18n>comments}"/>
+      </Annotations>
+      <Annotations Target="CatalogService.EntityContainer/VSales">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="CatalogService.EntityContainer/SessionInfo">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

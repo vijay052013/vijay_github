@@ -1,0 +1,10 @@
+COLUMN TABLE capapp_db_Sales (
+  ID INTEGER NOT NULL,
+  region NVARCHAR(100),
+  country NVARCHAR(100),
+  org NVARCHAR(4),
+  amount INTEGER,
+  comments NVARCHAR(100),
+  criticality INTEGER,
+  PRIMARY KEY(ID)
+)
